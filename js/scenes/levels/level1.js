@@ -12,7 +12,7 @@ class Level1 extends Phaser.Scene{
   }
   preload() {
       // map made with Tiled in JSON format
-      this.load.tilemapTiledJSON('map', 'assets/maps/json/level1.json');
+      this.load.tilemapTiledJSON('map', 'assets/maps/level1.json');
       // tiles in spritesheet 
       this.load.spritesheet('tiles', 'assets/maps/tiles.png', {frameWidth: 50, frameHeight: 50});
       // simple coin image
@@ -114,13 +114,10 @@ class Level1 extends Phaser.Scene{
 
 }
 
-/* SWITCH SCENE
-
 function collectCoin(sprite, tile) {
-  this.scene.start('bootGame');
+  //this.scene.start('bootGame');
   coinLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
   score++; // add 10 points to the score
   text.setText(score); // set the text to show the current score
   return false;
 }
-*/

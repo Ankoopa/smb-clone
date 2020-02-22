@@ -4,7 +4,7 @@
   <export target="map.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tiles" tilewidth="70" tileheight="70" tilecount="16" columns="4">
-  <image source="tiles.png" width="280" height="280"/>
+  <image source="../tiles.png" width="280" height="280"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -72,7 +72,7 @@
   </tile>
  </tileset>
  <tileset firstgid="17" name="coin" tilewidth="70" tileheight="70" tilecount="1" columns="1">
-  <image source="coinGold.png" width="70" height="70"/>
+  <image source="../../sprites/coinGold.png" width="70" height="70"/>
  </tileset>
  <layer id="1" name="World" width="30" height="10">
   <data encoding="base64">
