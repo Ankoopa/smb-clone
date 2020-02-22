@@ -28,13 +28,13 @@ var score = 0;
 
 function preload() {
     // map made with Tiled in JSON format
-    this.load.tilemapTiledJSON('map', 'assets/map.json');
+    this.load.tilemapTiledJSON('map', '/assets/maps/json/level1.json');
     // tiles in spritesheet 
-    this.load.spritesheet('tiles', 'assets/tiles.png', {frameWidth: 50, frameHeight: 50});
+    this.load.spritesheet('tiles', '/assets/tiles.png', {frameWidth: 50, frameHeight: 50});
     // simple coin image
-    this.load.image('coin', 'assets/coinGold.png');
+    this.load.image('coin', '/assets/sprites/coinGold.png');
     // player animations
-    this.load.atlas('player', 'assets/player.png', 'assets/player.json');
+    this.load.atlas('player', '/assets/sprites/player.png', '/assets/sprites/json/player.json');
 }
 
 function create() {
