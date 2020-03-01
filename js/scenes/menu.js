@@ -6,11 +6,12 @@ class Menu extends Phaser.Scene {
         this.load.image('play', 'assets/images/ui/playBtn.png');
     }
     create() {
-        const playBtn = this.add.image(400, 350, 'play', 0);
+        const playBtn = this.add.image(config.width/2, config.height/2, 'play', 0);
         playBtn.setScale(0.5, 0.5); 
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
             this.scene.start("playGame");
+            return false;
         })
     };
   }

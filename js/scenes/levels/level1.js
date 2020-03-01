@@ -4,6 +4,7 @@ var cursors;
 var groundLayer, coinLayer;
 var text;
 var score = 0;
+
 class Level1 extends Phaser.Scene{
   constructor(){
     super("playGame");
@@ -41,8 +42,8 @@ class Level1 extends Phaser.Scene{
     this.physics.world.bounds.height = groundLayer.height;
 
     // create the player sprite    
-    player = this.physics.add.sprite(200, 200, 'player');
-    player.setBounce(0.2); // our player will bounce from items
+    player = this.physics.add.sprite(200, 1150, 'player');
+    player.setBounce(0.1); // our player will bounce from items
     player.setCollideWorldBounds(true); // don't go out of the map    
     
     // small fix to our player images, we resize the physics body object slightly
@@ -92,23 +93,32 @@ class Level1 extends Phaser.Scene{
   update(time, delta) {
     if (cursors.left.isDown)
     {
-        player.body.setVelocityX(-200);
-        player.anims.play('walk', true); // walk left
-        player.flipX = true; // flip the sprite to the left
+      player.body.setVelocityX(-250);
+      player.anims.play('walk', true); // walk left
+      player.flipX = true; // flip the sprite to the left
     }
     else if (cursors.right.isDown)
     {
-        player.body.setVelocityX(200);
-        player.anims.play('walk', true);
-        player.flipX = false; // use the original sprite looking to the right
+      player.body.setVelocityX(250);
+      player.anims.play('walk', true);
+      player.flipX = false; // use the original sprite looking to the right
     } else {
-        player.body.setVelocityX(0);
-        player.anims.play('idle', true);
+      player.body.setVelocityX(0);
+      player.anims.play('idle', true);
     }
     // jump 
-    if (cursors.up.isDown && player.body.onFloor())
-    {
-        player.body.setVelocityY(-500);        
+    if (cursors.up.isDown && player.body.onFloor()){
+      player.body.setVelocityY(-500);        
+    }
+
+    //console.log(player.body.checkWorldBounds());
+    //console.log(player.body.y);
+
+    if(player.body.checkWorldBounds() && player.body.y <= 1312){
+      score = 0;
+
+      this.scene.start('deathScreen');
+      return false;
     }
   }
 
@@ -119,5 +129,4 @@ function collectCoin(sprite, tile) {
   coinLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
   score++; // add 10 points to the score
   text.setText(score); // set the text to show the current score
-  return false;
 }
