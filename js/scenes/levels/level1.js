@@ -8,8 +8,6 @@ var score = 0;
 class Level1 extends Phaser.Scene{
   constructor(){
     super("playGame");
-    // this function will be called when the player touches a coin
-
   }
   preload() {
       // map made with Tiled in JSON format
@@ -71,7 +69,6 @@ class Level1 extends Phaser.Scene{
         frameRate: 10,
     });
 
-
     cursors = this.input.keyboard.createCursorKeys();
 
     // set bounds so the camera won't go outside the game world
@@ -90,6 +87,7 @@ class Level1 extends Phaser.Scene{
     // fix the text to the camera
     text.setScrollFactor(0);
   }
+
   update(time, delta) {
     if (cursors.left.isDown)
     {
@@ -111,21 +109,23 @@ class Level1 extends Phaser.Scene{
       player.body.setVelocityY(-500);        
     }
 
-    //console.log(player.body.checkWorldBounds());
+    //console.log(player.body.x);
     //console.log(player.body.y);
 
-    if(player.body.checkWorldBounds() && player.body.y <= 1312){
+    if(player.body.checkWorldBounds() && player.body.y >= 1310){
       score = 0;
 
       this.scene.start('deathScreen');
       return false;
     }
+    else if(player.body.checkWorldBounds() && player.body.x >= 6900){
+      this.scene.start('level2');
+      return false;
+    }
   }
-
 }
 
 function collectCoin(sprite, tile) {
-  //this.scene.start('bootGame');
   coinLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
   score++; // add 10 points to the score
   text.setText(score); // set the text to show the current score

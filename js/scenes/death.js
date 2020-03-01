@@ -3,6 +3,7 @@ class Death extends Phaser.Scene {
       super("deathScreen");
     }
     preload() {
+        lives--;
         this.load.image('play', 'assets/images/ui/playBtn.png');
     }
     create() {
