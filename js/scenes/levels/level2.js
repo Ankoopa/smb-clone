@@ -1,10 +1,3 @@
-var map;
-var player;
-var cursors;
-var groundLayer, coinLayer;
-var text;
-var score = 0;
-
 class Level2 extends Phaser.Scene{
   constructor(){
     super('level2');

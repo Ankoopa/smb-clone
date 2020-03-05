@@ -3,11 +3,10 @@ class Death extends Phaser.Scene {
       super("deathScreen");
     }
     preload() {
-        lives--;
         this.load.image('play', 'assets/images/ui/playBtn.png');
     }
     create() {
-        this.add.text(config.width/2, 75, 'Game Over', {
+        this.add.text(config.width/2, 100, 'Game Over', {
             fontSize: '20px',
             fill: '#ffffff'
         });

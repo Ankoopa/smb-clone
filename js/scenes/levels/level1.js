@@ -11,9 +11,9 @@ class Level1 extends Phaser.Scene{
   }
   preload() {
       // map made with Tiled in JSON format
-      this.load.tilemapTiledJSON('map', 'assets/maps/level1.json');
+      this.load.tilemapTiledJSON('map', 'assets/maps/level1alt.json');
       // tiles in spritesheet 
-      this.load.spritesheet('tiles', 'assets/maps/tiles.png', {frameWidth: 50, frameHeight: 50});
+      this.load.spritesheet('tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
       // simple coin image
       this.load.image('coin', 'assets/sprites/coinGold.png');
       // player animations
@@ -26,14 +26,14 @@ class Level1 extends Phaser.Scene{
     // tiles for the ground layer
     var groundTiles = map.addTilesetImage('tiles');
     // create the ground layer
-    groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+    groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     // the player will collide with this layer
     groundLayer.setCollisionByExclusion([-1]);
 
     // coin image used as tileset
     var coinTiles = map.addTilesetImage('coin');
     // add coins as tiles
-    coinLayer = map.createDynamicLayer('Coins', coinTiles, 0, 0);
+    coinLayer = map.createDynamicLayer('CoinLayer', coinTiles, 0, 0);
 
     // set the boundaries of our game world
     this.physics.world.bounds.width = groundLayer.width;
@@ -78,6 +78,8 @@ class Level1 extends Phaser.Scene{
 
     // set background color, so the sky is not black    
     this.cameras.main.setBackgroundColor('#ccccff');
+
+    this.cameras.main.setZoom(1);
 
     // this text will show the score
     text = this.add.text(20, 570, '0', {
