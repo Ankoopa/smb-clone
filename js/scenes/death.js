@@ -15,8 +15,7 @@ class Death extends Phaser.Scene {
         playBtn.setScale(0.5, 0.5); 
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
-            this.scene.start("playGame");
-            return false;
+            this.scene.start("level1");
         })
     };
   }

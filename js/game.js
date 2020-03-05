@@ -6,7 +6,7 @@ var config = {
           default: 'arcade',
           arcade: {
               gravity: {y: 575},
-              debug: false
+              debug: true
           }
       },
     scene: [Menu, Level1, Level2, Death]
