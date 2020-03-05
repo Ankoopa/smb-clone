@@ -13,7 +13,7 @@ class Level1 extends Phaser.Scene{
       // map made with Tiled in JSON format
       this.load.tilemapTiledJSON('map', 'assets/maps/level1alt.json');
       // tiles in spritesheet 
-      this.load.spritesheet('tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
+      this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
       // simple coin image
       this.load.image('coin', 'assets/sprites/coinGold.png');
       // player animations
@@ -24,23 +24,21 @@ class Level1 extends Phaser.Scene{
     map = this.make.tilemap({key: 'map'});
 
     // tiles for the ground layer
-    var groundTiles = map.addTilesetImage('tiles');
+    var groundTiles = map.addTilesetImage('world_tiles');
     // create the ground layer
     groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     // the player will collide with this layer
     groundLayer.setCollisionByExclusion([-1]);
 
-    // coin image used as tileset
-    var coinTiles = map.addTilesetImage('coin');
     // add coins as tiles
-    coinLayer = map.createDynamicLayer('CoinLayer', coinTiles, 0, 0);
+    coinLayer = map.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
 
     // set the boundaries of our game world
     this.physics.world.bounds.width = groundLayer.width;
     this.physics.world.bounds.height = groundLayer.height;
 
     // create the player sprite    
-    player = this.physics.add.sprite(200, 1150, 'player');
+    player = this.physics.add.sprite(200, 680, 'player');
     player.setBounce(0.1); // our player will bounce from items
     player.setCollideWorldBounds(true); // don't go out of the map    
     
@@ -50,7 +48,7 @@ class Level1 extends Phaser.Scene{
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
 
-    coinLayer.setTileIndexCallback(17, collectCoin, this);
+    coinLayer.setTileIndexCallback(878, collectCoin, this);
     // when the player overlaps with a tile with index 17, collectCoin 
     // will be called    
     this.physics.add.overlap(player, coinLayer);
