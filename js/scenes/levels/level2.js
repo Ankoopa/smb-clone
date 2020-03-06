@@ -1,52 +1,36 @@
-var enemies = [];
-var text;
-var worldPhys;
-var curScene;
-
 class Level2 extends Phaser.Scene{
   constructor(){
     super("level2");
   }
   preload() {
       // map made with Tiled in JSON format
-      this.load.tilemapTiledJSON('map2', 'assets/maps/level2.json');
+      //this.load.tilemapTiledJSON('map2', 'assets/maps/level2.json');
       // tiles in spritesheet 
-      this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
-      // simple coin image
-      this.load.image('coin', 'assets/sprites/coinGold.png');
-      // player animations
-      this.load.atlas('player', 'assets/sprites/player.png', 'assets/sprites/json/player.json');
-      this.load.atlas('enemy', 'assets/sprites/enemy.png', 'assets/sprites/json/enemy.json');
   }
   create() {
+    curLevel = 2;
     worldPhys = this.physics;
     curScene = this.scene;
+    enemies = [];
 
     var enemiesPosX = [1480, 3681, 5716, 7230];
     var enemiesPosY = [903, 1031, 743, 903];
-    // load the map 
+
     map2 = this.make.tilemap({key: 'map2'});
 
-    // tiles for the ground layer
-    var groundTiles = map2.addTilesetImage('world_tiles');
-    // create the ground layer
-    groundLayer = map2.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
-    // the player will collide with this layer
+    var groundTiles = map.addTilesetImage('world_tiles');
+
+    groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     groundLayer.setCollisionByExclusion([-1]);
 
-    // add coins as tiles
-    coinLayer = map2.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
+    coinLayer = map.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
 
-    // set the boundaries of our game world
     this.physics.world.bounds.width = groundLayer.width;
     this.physics.world.bounds.height = groundLayer.height;
 
-    // create the player sprite    
-    //player = this.physics.add.sprite(200, 900, 'player');
-    player.x = 200;
-    player.y = 900;
-    //player.setBounce(0.1); // our player will bounce from items
-    //player.setCollideWorldBounds(true); // don't go out of the map
+    player = this.physics.add.sprite(200, 900, 'player');
+    player.setBounce(0.1);
+    player.setCollideWorldBounds(true);
 
     for(var i=0;i<4;i++){
       this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
@@ -109,7 +93,7 @@ class Level2 extends Phaser.Scene{
     this.cameras.main.setZoom(1);
 
     // this text will show the score
-    text = this.add.text(20, 570, '0', {
+    text = this.add.text(20, 570, score, {
         fontSize: '20px',
         fill: '#ffffff'
     });
@@ -118,71 +102,14 @@ class Level2 extends Phaser.Scene{
   }
 
   update(time, delta) {
-    if (cursors.left.isDown)
-    {
-      player.body.setVelocityX(-250);
-      player.anims.play('walk', true); // walk left
-      player.flipX = true; // flip the sprite to the left
-    }
-    else if (cursors.right.isDown)
-    {
-      player.body.setVelocityX(250);
-      player.anims.play('walk', true);
-      player.flipX = false; // use the original sprite looking to the right
-    } else {
-      player.body.setVelocityX(0);
-      player.anims.play('idle', true);
-    }
-    // jump 
-    if (cursors.up.isDown && player.body.onFloor()){
-      player.body.setVelocityY(-500);        
-    }
+    playerController(player, cursors);
 
     enemies.forEach(function arr(enemy, idx){
-      if(enemy.alive){
-        enemy.anims.play('ewalk', true);
-        if(enemy.body.blocked.right){
-          enemy.body.setVelocityX(-125);
-          enemy.velocity = -125;
-        }
-        else if(enemy.body.blocked.left){
-          enemy.body.setVelocityX(125);
-          enemy.velocity = 125;
-        }
-        else{
-          enemy.body.setVelocityX(enemy.velocity);
-        }
-        worldPhys.world.collide(player, enemy, function(player, enemy){
-          if(enemy.body.touching.up && player.body.touching.down){
-              player.body.setVelocityY(-200);
-              // in this case just jump again
-              enemy.alive = false;
-              enemy.destroy();
-          }
-          else{
-              // any other way to collide on an enemy will restart the game
-              score = 0;
-              curScene.start("deathScreen");
-          }
-        }, null, this);
-      }
-    })
+      checkEnemies(enemy, idx);
+    });
 
-    if(player.body.checkWorldBounds() && player.body.y >= 1190){
-      score = 0;
-      this.scene.start('deathScreen');
-    }
-    else if(player.body.checkWorldBounds() && player.body.x >= 6900){
-      this.scene.start('level2');
-    }
+    touchedBounds(player, curLevel);
 
     this.physics.overlap(player, coinLayer);
   }
-}
-
-function getCoin(player, coin){
-  console.log('coin get');
-  coinLayer.removeTileAt(coin.x, coin.y); // remove the tile/coin
-  score++; // add 10 points to the score
-  text.setText(score); // set the text to show the current score
 }

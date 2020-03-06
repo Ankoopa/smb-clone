@@ -6,7 +6,18 @@ class Death extends Phaser.Scene {
         this.load.image('play', 'assets/images/ui/playBtn.png');
     }
     create() {
-        this.add.text(config.width/2, 100, 'Game Over', {
+        var deathText;
+
+        if(playerLives > 0){
+            console.log('true');
+            deathText = "Lives Left: " + playerLives; 
+        }
+        else{
+            console.log('false');
+            deathText = "Game Over!";
+        }
+
+        this.add.text(config.width/2, 100, deathText, {
             fontSize: '20px',
             fill: '#ffffff'
         });
@@ -15,7 +26,19 @@ class Death extends Phaser.Scene {
         playBtn.setScale(0.5, 0.5); 
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
-            this.scene.start("level1");
+            if(playerLives > 0){
+                switch(curLevel){
+                    case 1:
+                        this.scene.start("level1");
+                        break;
+                    case 2:
+                        this.scene.start("level2");
+                        break;
+                }
+            }
+            else{
+                this.scene.start("bootGame");
+            }
         })
     };
   }
