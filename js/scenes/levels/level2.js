@@ -10,7 +10,7 @@ class Level2 extends Phaser.Scene{
   }
   preload() {
       // map made with Tiled in JSON format
-      this.load.tilemapTiledJSON('map', 'assets/maps/level1alt.json');
+      this.load.tilemapTiledJSON('map', 'assets/maps/level2.json');
       // tiles in spritesheet 
       this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
       // simple coin image
@@ -23,8 +23,8 @@ class Level2 extends Phaser.Scene{
     worldPhys = this.physics;
     curScene = this.scene;
 
-    var enemiesPosX = [400, 3516, 5095];
-    var enemiesPosY = [750, 870, 1063];
+    var enemiesPosX = [1480, 3681, 5716, 7230];
+    var enemiesPosY = [903, 1031, 743, 903];
     // load the map 
     map = this.make.tilemap({key: 'map'});
 
@@ -43,11 +43,11 @@ class Level2 extends Phaser.Scene{
     this.physics.world.bounds.height = groundLayer.height;
 
     // create the player sprite    
-    player = this.physics.add.sprite(200, 1100, 'player');
+    player = this.physics.add.sprite(200, 900, 'player');
     player.setBounce(0.1); // our player will bounce from items
     player.setCollideWorldBounds(true); // don't go out of the map
 
-    for(var i=0;i<3;i++){
+    for(var i=0;i<4;i++){
       this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
       var spawnX = Phaser.Math.Between(20, config.width - 20);
       this.enemy.velocity = 125;
