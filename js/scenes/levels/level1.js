@@ -168,7 +168,7 @@ class Level1 extends Phaser.Scene{
 
     this.physics.world.collide(player, enemy, function(player, enemy){
       if(enemy.body.touching.up && player.body.touching.down){
-
+          player.body.setVelocityY(-200);
           // in this case just jump again
           enemy.alive = false;
           enemy.destroy();
