@@ -1,11 +1,12 @@
 var map;
 var player;
-var enemy;
+var enemies = [];
 var cursors;
 var groundLayer, coinLayer;
 var text;
 var score = 0;
-var overlapTriggered = false;
+var worldPhys;
+var curScene;
 
 class Level1 extends Phaser.Scene{
   constructor(){
@@ -23,6 +24,11 @@ class Level1 extends Phaser.Scene{
       this.load.atlas('enemy', 'assets/sprites/enemy.png', 'assets/sprites/json/enemy.json');
   }
   create() {
+    worldPhys = this.physics;
+    curScene = this.scene;
+
+    var enemiesPosX = [400, 3516, 5095];
+    var enemiesPosY = [750, 870, 1063];
     // load the map 
     map = this.make.tilemap({key: 'map'});
 
@@ -44,23 +50,24 @@ class Level1 extends Phaser.Scene{
     player = this.physics.add.sprite(200, 1100, 'player');
     player.setBounce(0.1); // our player will bounce from items
     player.setCollideWorldBounds(true); // don't go out of the map
-    
-    enemy = this.physics.add.sprite(400, 750, 'enemy');
-    enemy.setCollideWorldBounds(true);
-    enemy.velocity = 125;
-    enemy.alive = true
-    enemy.touched = false;
-    
+
+    for(var i=0;i<3;i++){
+      this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
+      var spawnX = Phaser.Math.Between(20, config.width - 20);
+      this.enemy.velocity = 125;
+      this.enemy.alive = true;
+      this.enemy.touched = false;
+      this.physics.add.collider(groundLayer, this.enemy);
+      enemies.push(this.enemy);
+  } 
     // small fix to our player images, we resize the physics body object slightly
     player.body.setSize(player.width, player.height-8);
-    enemy.body.setSize(enemy.width, enemy.height);
     
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
-    this.physics.add.collider(groundLayer, enemy);
     //this.physics.add.collider(player, enemy);
 
-    coinLayer.setTileIndexCallback(879, collectCoin, this);
+    coinLayer.setTileIndexCallback(879, getCoin, this);
     // when the player overlaps with a tile with index 17, collectCoin 
     // will be called
     //this.physics.add.overlap(player, enemy, touchedEnemy, null, this);
@@ -134,29 +141,35 @@ class Level1 extends Phaser.Scene{
       player.body.setVelocityY(-500);        
     }
 
-    if(enemy.touched){
-      this.scene.start('deathScreen');
-      return;
-    }
-
-    if(enemy.alive){
-      if(enemy.body.blocked.right){
-        enemy.body.setVelocityX(-125);
-        enemy.velocity = -125
-      }
-      else if(enemy.body.blocked.left){
-        enemy.body.setVelocityX(125);
-        enemy.velocity = 125;
-      }
-      else{
-        enemy.body.setVelocityX(enemy.velocity);
+    enemies.forEach(function arr(enemy, idx){
+      if(enemy.alive){
         enemy.anims.play('ewalk', true);
+        if(enemy.body.blocked.right){
+          enemy.body.setVelocityX(-125);
+          enemy.velocity = -125;
+        }
+        else if(enemy.body.blocked.left){
+          enemy.body.setVelocityX(125);
+          enemy.velocity = 125;
+        }
+        else{
+          enemy.body.setVelocityX(enemy.velocity);
+        }
+        worldPhys.world.collide(player, enemy, function(player, enemy){
+          if(enemy.body.touching.up && player.body.touching.down){
+              player.body.setVelocityY(-200);
+              // in this case just jump again
+              enemy.alive = false;
+              enemy.destroy();
+          }
+          else{
+              // any other way to collide on an enemy will restart the game
+              score = 0;
+              curScene.start("deathScreen");
+          }
+        }, null, this);
       }
-    }
-    //console.log(enemy.body.blocked);
-
-    //console.log(player.body.x);
-    //console.log(player.body.y);
+    })
 
     if(player.body.checkWorldBounds() && player.body.y >= 1190){
       score = 0;
@@ -166,22 +179,7 @@ class Level1 extends Phaser.Scene{
       this.scene.start('level2');
     }
 
-    this.physics.world.collide(player, enemy, function(player, enemy){
-      if(enemy.body.touching.up && player.body.touching.down){
-          player.body.setVelocityY(-200);
-          // in this case just jump again
-          enemy.alive = false;
-          enemy.destroy();
-      }
-      else{
-
-          // any other way to collide on an enemy will restart the game
-          score = 0;
-          this.scene.start("deathScreen");
-      }
-    }, null, this);
-
-    this.physics.overlap(player, coinLayer, this.getCoin);
+    this.physics.overlap(player, coinLayer);
   }
 }
 
@@ -191,17 +189,3 @@ function getCoin(player, coin){
   score++; // add 10 points to the score
   text.setText(score); // set the text to show the current score
 }
-
-/*
-function touchedEnemy(){
-  console.log('touched Enemy.');
-  if(enemy.body.touching.up){
-    enemy.destroy();
-    enemy.alive = false;
-    score += 5;
-  }
-  else{
-    enemy.touched = true;
-  }
-}
-*/
