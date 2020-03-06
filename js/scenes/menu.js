@@ -15,7 +15,7 @@ class Menu extends Phaser.Scene {
         playBtn.setScale(0.5, 0.5); 
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
-            this.scene.start("level1");
+            this.scene.start("level3");
             return false;
         })
     };

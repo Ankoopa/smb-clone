@@ -29,14 +29,8 @@ class Level2 extends Phaser.Scene{
     player.setBounce(0.1);
     player.setCollideWorldBounds(true);
 
-    for(var i=0;i<4;i++){
-      this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
-      this.enemy.velocity = 125;
-      this.enemy.alive = true;
-      this.enemy.touched = false;
-      this.physics.add.collider(groundLayer, this.enemy);
-      enemies.push(this.enemy);
-    } 
+    spawnEnemies(3, enemiesPosX, enemiesPosY);
+    
     player.body.setSize(player.width-10, player.height-8);
     
     this.physics.add.collider(groundLayer, player);

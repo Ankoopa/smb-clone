@@ -34,14 +34,8 @@ class Level1 extends Phaser.Scene{
     player.setBounce(0.1); // our player will bounce from items
     player.setCollideWorldBounds(true); // don't go out of the map
 
-    for(var i=0;i<3;i++){
-      this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
-      this.enemy.velocity = 125;
-      this.enemy.alive = true;
-      this.enemy.touched = false;
-      this.physics.add.collider(groundLayer, this.enemy);
-      enemies.push(this.enemy);
-    } 
+    spawnEnemies(3, enemiesPosX, enemiesPosY);
+
     // small fix to our player images, we resize the physics body object slightly
     player.body.setSize(player.width-10, player.height-8);
     

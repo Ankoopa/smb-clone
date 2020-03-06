@@ -14,7 +14,7 @@ var config = {
 
 var player;
 var enemies = [];
-var groundLayer, coinLayer;
+var groundLayer, decLayer, coinLayer;
 var cursors
 
 var playerLives = 0;
@@ -49,6 +49,17 @@ function playerController(plr, cursors){
   // jump 
   if (cursors.up.isDown && plr.body.onFloor()){
     plr.body.setVelocityY(-500);        
+  }
+}
+
+function spawnEnemies(amt, posX, posY){
+  for(var i=0;i<amt;i++){
+    this.enemy = worldPhys.add.sprite(posX[i], posY[i], 'enemy');
+    this.enemy.velocity = 125;
+    this.enemy.alive = true;
+    this.enemy.touched = false;
+    worldPhys.add.collider(groundLayer, this.enemy);
+    enemies.push(this.enemy);
   }
 }
 

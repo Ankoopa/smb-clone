@@ -5,6 +5,8 @@ class Loader extends Phaser.Scene{
     preload() {
         this.load.tilemapTiledJSON('map', 'assets/maps/level1alt.json');
         this.load.tilemapTiledJSON('map2', 'assets/maps/level2.json');
+        this.load.tilemapTiledJSON('map3', 'assets/maps/level3.json');
+
 
         this.load.image('play', 'assets/images/ui/playBtn.png');
         this.load.atlas('player', 'assets/sprites/player.png', 'assets/sprites/json/player.json');
