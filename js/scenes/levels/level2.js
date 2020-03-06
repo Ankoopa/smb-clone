@@ -1,5 +1,4 @@
 var enemies = [];
-var groundLayer, coinLayer;
 var text;
 var worldPhys;
 var curScene;
@@ -10,7 +9,7 @@ class Level2 extends Phaser.Scene{
   }
   preload() {
       // map made with Tiled in JSON format
-      this.load.tilemapTiledJSON('map', 'assets/maps/level2.json');
+      this.load.tilemapTiledJSON('map2', 'assets/maps/level2.json');
       // tiles in spritesheet 
       this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
       // simple coin image
@@ -26,26 +25,28 @@ class Level2 extends Phaser.Scene{
     var enemiesPosX = [1480, 3681, 5716, 7230];
     var enemiesPosY = [903, 1031, 743, 903];
     // load the map 
-    map = this.make.tilemap({key: 'map'});
+    map2 = this.make.tilemap({key: 'map2'});
 
     // tiles for the ground layer
-    var groundTiles = map.addTilesetImage('world_tiles');
+    var groundTiles = map2.addTilesetImage('world_tiles');
     // create the ground layer
-    groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
+    groundLayer = map2.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     // the player will collide with this layer
     groundLayer.setCollisionByExclusion([-1]);
 
     // add coins as tiles
-    coinLayer = map.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
+    coinLayer = map2.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
 
     // set the boundaries of our game world
     this.physics.world.bounds.width = groundLayer.width;
     this.physics.world.bounds.height = groundLayer.height;
 
     // create the player sprite    
-    player = this.physics.add.sprite(200, 900, 'player');
-    player.setBounce(0.1); // our player will bounce from items
-    player.setCollideWorldBounds(true); // don't go out of the map
+    //player = this.physics.add.sprite(200, 900, 'player');
+    player.x = 200;
+    player.y = 900;
+    //player.setBounce(0.1); // our player will bounce from items
+    //player.setCollideWorldBounds(true); // don't go out of the map
 
     for(var i=0;i<4;i++){
       this.enemy = this.physics.add.sprite(enemiesPosX[i], enemiesPosY[i], 'enemy');
@@ -98,7 +99,7 @@ class Level2 extends Phaser.Scene{
     cursors = this.input.keyboard.createCursorKeys();
 
     // set bounds so the camera won't go outside the game world
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, map2.widthInPixels, map2.heightInPixels);
     // make the camera follow the player
     this.cameras.main.startFollow(player);
 

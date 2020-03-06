@@ -1,13 +1,3 @@
-var map;
-var player;
-var enemies = [];
-var cursors;
-var groundLayer, coinLayer;
-var text;
-var score = 0;
-var worldPhys;
-var curScene;
-
 class Level1 extends Phaser.Scene{
   constructor(){
     super("level1");
@@ -173,7 +163,7 @@ class Level1 extends Phaser.Scene{
 
     if(player.body.checkWorldBounds() && player.body.y >= 1190){
       score = 0;
-      this.scene.start('deathScreen');
+      this.scene.start('level2');
     }
     else if(player.body.checkWorldBounds() && player.body.x >= 6900){
       this.scene.start('level2');

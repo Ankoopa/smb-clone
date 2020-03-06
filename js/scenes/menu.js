@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         this.load.image('play', 'assets/images/ui/playBtn.png');
+        this.load.atlas('player', 'assets/sprites/player.png', 'assets/sprites/json/player.json');
     }
     create() {
         const playBtn = this.add.image(config.width/2, config.height/2, 'play', 0);
