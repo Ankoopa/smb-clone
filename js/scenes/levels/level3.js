@@ -8,6 +8,9 @@ class Level3 extends Phaser.Scene{
     worldPhys = this.physics;
     curScene = this.scene;
 
+    mus = this.sound.add('bgm3');
+    mus.play({loop: -1});
+
     enemies = [];
 
     var enemiesPosX = [572, 2111, 4172, 5144];
@@ -19,6 +22,9 @@ class Level3 extends Phaser.Scene{
 
     groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     groundLayer.setCollisionByExclusion([-1]);
+
+    groundLayer.setTileIndexCallback(565, touchedPipe, this);
+    groundLayer.setTileIndexCallback(566, touchedPipe, this);
 
     coinLayer = map.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
     decLayer = map.createDynamicLayer('DecorLayer', groundTiles, 0, 0);
@@ -56,7 +62,7 @@ class Level3 extends Phaser.Scene{
       checkEnemies(enemy, idx);
     });
 
-    touchedBounds(player, curLevel);
+    touchedBounds(player);
 
     this.physics.overlap(player, coinLayer);
   }

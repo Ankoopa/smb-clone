@@ -10,6 +10,9 @@ class Level1 extends Phaser.Scene{
 
     enemies = [];
 
+    mus = this.sound.add('bgm1');
+    mus.play({loop: -1});
+
     var enemiesPosX = [400, 3516, 5095];
     var enemiesPosY = [750, 870, 1063];
     // load the map 
@@ -21,6 +24,9 @@ class Level1 extends Phaser.Scene{
     groundLayer = map.createDynamicLayer('WorldLayer', groundTiles, 0, 0);
     // the player will collide with this layer
     groundLayer.setCollisionByExclusion([-1]);
+
+    groundLayer.setTileIndexCallback(553, touchedPipe, this);
+    groundLayer.setTileIndexCallback(554, touchedPipe, this);
 
     // add coins as tiles
     coinLayer = map.createDynamicLayer('CoinLayer', groundTiles, 0, 0);
@@ -70,7 +76,7 @@ class Level1 extends Phaser.Scene{
       checkEnemies(enemy, idx);
     });
 
-    touchedBounds(player, curLevel);
+    touchedBounds(player);
 
     this.physics.overlap(player, coinLayer);
   }

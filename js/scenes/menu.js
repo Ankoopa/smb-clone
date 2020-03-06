@@ -12,10 +12,10 @@ class Menu extends Phaser.Scene {
         });
 
         const playBtn = this.add.image(config.width/2, config.height/2, 'play', 0);
-        playBtn.setScale(0.5, 0.5); 
+        playBtn.setScale(0.5, 0.5);
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
-            this.scene.start("level3");
+            this.scene.start("level1");
             return false;
         })
     };

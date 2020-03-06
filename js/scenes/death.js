@@ -9,11 +9,11 @@ class Death extends Phaser.Scene {
         var deathText;
 
         if(playerLives > 0){
-            console.log('true');
+            sfxDie.play();
             deathText = "Lives Left: " + playerLives; 
         }
         else{
-            console.log('false');
+            sfxGameOver.play();
             deathText = "Game Over!";
         }
 
@@ -33,6 +33,12 @@ class Death extends Phaser.Scene {
                         break;
                     case 2:
                         this.scene.start("level2");
+                        break;
+                    case 3:
+                        this.scene.start("level3");
+                        break;
+                    case 3:
+                        this.scene.start("level4");
                         break;
                 }
             }

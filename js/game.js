@@ -9,13 +9,13 @@ var config = {
               debug: true
           }
       },
-    scene: [Loader, Menu, Level1, Level2, Level3, Death]
+    scene: [Loader, Menu, Level1, Level2, Level3, Level4, Death]
   }
 
 var player;
 var enemies = [];
 var groundLayer, decLayer, coinLayer;
-var cursors
+var cursors;
 
 var playerLives = 0;
 var score = 0;
@@ -23,8 +23,10 @@ var lastScore = 0;
 var curLevel = 0;
 
 var map, map2, map3, map4;
-var sceneNames = ['level1', 'level2'];
+var sceneNames = ['level1', 'level2', 'level3', 'level4'];
 var text;
+var mus
+var sfxCoin, sfxStomp, sfxJump, sfxDie, sfxGameOver;
 
 var worldPhys, curScene;
 
@@ -48,7 +50,8 @@ function playerController(plr, cursors){
   }
   // jump 
   if (cursors.up.isDown && plr.body.onFloor()){
-    plr.body.setVelocityY(-500);        
+    plr.body.setVelocityY(-500);
+    sfxJump.play();
   }
 }
 
@@ -84,34 +87,43 @@ function checkEnemies(enemy, idx){
 function enemyTouch(plr, enemy){
   if(enemy.body.touching.up && plr.body.touching.down){
     plr.body.setVelocityY(-200);
-
+    sfxStomp.play();
     enemy.alive = false;
     enemy.destroy();
     score += 5;
     text.setText(score);
   }
   else{
-    // any other way to collide on an enemy will restart the game
     score = lastScore;
     playerLives--;
+    mus.stop();
     curScene.start("deathScreen");
   }
 }
 
 function getCoin(plr, coin){
-  console.log('coin get');
+  sfxCoin.play();
   coinLayer.removeTileAt(coin.x, coin.y); // remove the tile/coin
   score++; // add 10 points to the score
   text.setText(score); // set the text to show the current score
 }
 
-function touchedBounds(plr, levelNum){
+function touchedBounds(plr){
   if(plr.body.checkWorldBounds() && plr.body.y >= 1190){
-    score = 0;
+    mus.stop();
+    score = lastScore;
     playerLives--;
     curScene.start('deathScreen');
   }
-  else if(plr.body.checkWorldBounds() && plr.body.x >= 6900){
-    curScene.start(sceneNames[levelNum]);
+}
+
+function touchedPipe(){
+  if (cursors.down.isDown && !player.body.onFloor()){
+    mus.stop();
+    curScene.start(sceneNames[curLevel]);
   }
+}
+
+function touchedVertPipe(){
+  curScene.start('winScreen');
 }
