@@ -81,7 +81,8 @@ function enemyTouch(plr, enemy){
   }
   else{
     // any other way to collide on an enemy will restart the game
-    score = 0;
+    score = lastScore;
+    playerLives--;
     curScene.start("deathScreen");
   }
 }

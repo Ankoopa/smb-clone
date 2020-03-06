@@ -3,6 +3,7 @@ class Level1 extends Phaser.Scene{
     super("level1");
   }
   create() {
+    lastScore = 0;
     curLevel = 1;
     worldPhys = this.physics;
     curScene = this.scene;
@@ -40,16 +41,15 @@ class Level1 extends Phaser.Scene{
       this.enemy.touched = false;
       this.physics.add.collider(groundLayer, this.enemy);
       enemies.push(this.enemy);
-  } 
+    } 
     // small fix to our player images, we resize the physics body object slightly
-    player.body.setSize(player.width, player.height-8);
+    player.body.setSize(player.width-10, player.height-8);
     
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
 
+    // coin sprite has an ID of 879 in the spritesheet
     coinLayer.setTileIndexCallback(879, getCoin, this);
-    // when the player overlaps with a tile with index 17, collectCoin 
-    // will be called
 
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
