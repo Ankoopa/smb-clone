@@ -32,7 +32,7 @@ class Level2 extends Phaser.Scene{
     this.physics.world.bounds.width = groundLayer.width;
     this.physics.world.bounds.height = groundLayer.height;
 
-    player = this.physics.add.sprite(200, 900, 'player');
+    player = this.physics.add.sprite(83, 999, 'player');
     player.setBounce(0.1);
     player.setCollideWorldBounds(true);
 
@@ -48,11 +48,29 @@ class Level2 extends Phaser.Scene{
     this.cameras.main.startFollow(player); 
     this.cameras.main.setBackgroundColor('#ccccff');
 
-    text = this.add.text(20, 570, score, {
-        fontSize: '20px',
+    scoreLbl = this.add.text(60, 30, "Score:", {
+      fontSize: '30px',
+      fill: '#ffffff'
+    });
+    scoreText = this.add.text(88, 65, score, {
+        fontSize: '30px',
         fill: '#ffffff'
     });
-    text.setScrollFactor(0);
+
+    livesLbl = this.add.text(600, 30, "Lives:", {
+      fontSize: '30px',
+      fill: '#ffffff'
+    });
+    livesText = this.add.text(630, 65, playerLives, {
+        fontSize: '30px',
+        fill: '#ffffff'
+    });
+
+    // fix the text to the camera
+    scoreLbl.setScrollFactor(0);
+    scoreText.setScrollFactor(0);
+    livesLbl.setScrollFactor(0);
+    livesText.setScrollFactor(0);
   }
 
   update(time, delta) {

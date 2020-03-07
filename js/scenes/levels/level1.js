@@ -60,13 +60,29 @@ class Level1 extends Phaser.Scene{
     this.cameras.main.setBackgroundColor('#ccccff');
 
     // this text will show the score
-    text = this.add.text(20, 570, '0', {
-        fontSize: '20px',
+    scoreLbl = this.add.text(60, 30, "Score:", {
+      fontSize: '30px',
+      fill: '#ffffff'
+    });
+    scoreText = this.add.text(88, 65, score, {
+        fontSize: '30px',
+        fill: '#ffffff'
+    });
+
+    livesLbl = this.add.text(600, 30, "Lives:", {
+      fontSize: '30px',
+      fill: '#ffffff'
+    });
+    livesText = this.add.text(630, 65, playerLives, {
+        fontSize: '30px',
         fill: '#ffffff'
     });
 
     // fix the text to the camera
-    text.setScrollFactor(0);
+    scoreLbl.setScrollFactor(0);
+    scoreText.setScrollFactor(0);
+    livesLbl.setScrollFactor(0);
+    livesText.setScrollFactor(0);
   }
 
   update(time, delta) {

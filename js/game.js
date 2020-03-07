@@ -22,9 +22,10 @@ var score = 0;
 var lastScore = 0;
 var curLevel = 0;
 
-var map, map2, map3, map4;
+var map;
 var sceneNames = ['level1', 'level2', 'level3', 'level4'];
-var text;
+var scoreLbl, livesLbl, levelLbl;
+var scoreText, livesText, levelText;
 var mus
 var sfxCoin, sfxStomp, sfxJump, sfxDie, sfxGameOver;
 
@@ -91,7 +92,7 @@ function enemyTouch(plr, enemy){
     enemy.alive = false;
     enemy.destroy();
     score += 5;
-    text.setText(score);
+    scoreText.setText(score);
   }
   else{
     score = lastScore;
@@ -105,7 +106,7 @@ function getCoin(plr, coin){
   sfxCoin.play();
   coinLayer.removeTileAt(coin.x, coin.y); // remove the tile/coin
   score++; // add 10 points to the score
-  text.setText(score); // set the text to show the current score
+  scoreText.setText(score); // set the text to show the current score
 }
 
 function touchedBounds(plr){

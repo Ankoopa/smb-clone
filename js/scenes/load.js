@@ -13,15 +13,13 @@ class Loader extends Phaser.Scene{
 
         this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});
 
-        this.load.image('coin', 'assets/sprites/coinGold.png');
-
         this.load.atlas('player', 'assets/sprites/player.png', 'assets/sprites/json/player.json');
         this.load.atlas('enemy', 'assets/sprites/enemy.png', 'assets/sprites/json/enemy.json');
 
         this.load.audio('bgm1', 'assets/audio/bgm1.ogg');
         this.load.audio('bgm2', 'assets/audio/bgm2.ogg');
         this.load.audio('bgm3', 'assets/audio/bgm3.ogg');
-        this.load.audio('bgm3', 'assets/audio/bgm4.ogg');
+        this.load.audio('bgm4', 'assets/audio/bgm4.ogg');
 
         this.load.audio('coin', 'assets/audio/coin.ogg');
         this.load.audio('stomp', 'assets/audio/stomp.ogg');
