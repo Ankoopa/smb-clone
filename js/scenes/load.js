@@ -8,7 +8,6 @@ class Loader extends Phaser.Scene{
         this.load.tilemapTiledJSON('map3', 'assets/maps/level3.json');
         this.load.tilemapTiledJSON('map4', 'assets/maps/level4.json');
 
-
         this.load.image('play', 'assets/images/ui/playBtn.png');
 
         this.load.spritesheet('world_tiles', 'assets/maps/tileset_world.png', {frameWidth: 32, frameHeight: 32});

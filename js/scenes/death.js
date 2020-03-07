@@ -8,7 +8,7 @@ class Death extends Phaser.Scene {
     create() {
         var deathText;
 
-        if(playerLives > 0){
+        if(playerLives >= 0){
             sfxDie.play();
             deathText = "Lives Left: " + playerLives; 
         }
@@ -26,7 +26,7 @@ class Death extends Phaser.Scene {
         playBtn.setScale(0.5, 0.5); 
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => {
-            if(playerLives > 0){
+            if(playerLives >= 0){
                 switch(curLevel){
                     case 1:
                         this.scene.start("level1");
@@ -37,7 +37,7 @@ class Death extends Phaser.Scene {
                     case 3:
                         this.scene.start("level3");
                         break;
-                    case 3:
+                    case 4:
                         this.scene.start("level4");
                         break;
                 }

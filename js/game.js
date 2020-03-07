@@ -61,7 +61,6 @@ function spawnEnemies(amt, posX, posY){
     this.enemy = worldPhys.add.sprite(posX[i], posY[i], 'enemy');
     this.enemy.velocity = 125;
     this.enemy.alive = true;
-    this.enemy.touched = false;
     worldPhys.add.collider(groundLayer, this.enemy);
     enemies.push(this.enemy);
   }
